@@ -1,0 +1,8 @@
+name: Mineback
+version: 0.1
+main: com.Mineback.plugin.Mineback
+author: HanavanOnline
+commands:
+    mineback:
+        description: Access the Mineback admin commands
+        usage: /mineback
