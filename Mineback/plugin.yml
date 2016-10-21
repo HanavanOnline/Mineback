@@ -4,5 +4,5 @@ main: com.Mineback.plugin.Mineback
 author: HanavanOnline
 commands:
     mineback:
-        description: Access the Mineback admin commands
+        description: Access the Mineback administrator commands
         usage: /mineback
