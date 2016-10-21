@@ -21,13 +21,26 @@ public class Mineback extends JavaPlugin {
 	private String privateKey = null;
 	
 	private int serverId = -1;
-	
-	private YamlConfiguration config = null;
 
 	@Override
 	public void onEnable() {
 		
 		this.thread = new MinebackThread(this);
+		
+		this.doConfig();
+		
+		this.getCommand("mineback").setExecutor(new MinebackCommands(this));
+		
+	}
+	
+	@Override
+	public void onDisable() {
+		
+		this.thread.stop();
+		
+	}
+	
+	public void doConfig() {
 		
 		this.saveDefaultConfig();
 		
@@ -37,13 +50,6 @@ public class Mineback extends JavaPlugin {
 		
 		this.publicKey = this.getConfig().getString("public-key");
 		this.privateKey = this.getConfig().getString("private-key");
-		
-	}
-	
-	@Override
-	public void onDisable() {
-		
-		this.thread.stop();
 		
 	}
 	
