@@ -1,9 +1,5 @@
 package com.Mineback.plugin.thread;
 
-import java.util.Date;
-
-import org.bukkit.Bukkit;
-
 import com.Mineback.plugin.Mineback;
 import com.Mineback.plugin.data.DataQueue;
 import com.Mineback.plugin.data.HTTPRequestBuilder;

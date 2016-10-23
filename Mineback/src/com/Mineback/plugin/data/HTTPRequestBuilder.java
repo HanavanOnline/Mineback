@@ -1,12 +1,16 @@
 package com.Mineback.plugin.data;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.Mineback.plugin.HTTP;
@@ -122,47 +126,56 @@ public class HTTPRequestBuilder {
 		}
 		
         URL url = null;
+        
 		try {
 			url = new URL(HTTP.ADDRESS + this.data.getRequestURI());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			return false;
 		}
+		
         HttpURLConnection connection = null;
+        
 		try {
 			connection = (HttpURLConnection) url.openConnection();
 		} catch (IOException e2) {
 			e2.printStackTrace();
 			return false;
 		}
+		
         try {
 			connection.setRequestMethod(this.data.getRequestType().toString());
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 			return false;
 		}
+        
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
         OutputStreamWriter osw = null;
+        
 		try {
 			osw = new OutputStreamWriter(connection.getOutputStream());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			return false;
 		}
+		
         try {
 			osw.write(this.json);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
+        
         try {
 			osw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
+        
         try {
 			osw.close();
 		} catch (IOException e) {
@@ -170,18 +183,24 @@ public class HTTPRequestBuilder {
 			return false;
 		}
         
-        return true;
-        /*try {
+        try {
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line;
-			while((line = reader.readLine()) != null) {
-			    Core.debug(line);
-			}
+			String line = "";
+			while((line = line + reader.readLine()) != null);
+			this.json = line;
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
+        
+        return true;
+		
+	}
+	
+	public Map<String,Object> getResponseData() {
+		
+		return this.json != null ? HTTP.jsonToMap(this.json) : new HashMap<String,Object>();
 		
 	}
 	
